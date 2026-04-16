@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Raspberry Pi Sensor Codes</title>
+
 <style>
     body {
         font-family: Arial, sans-serif;
@@ -13,7 +14,19 @@
 
     h1 {
         text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .image-container {
+        text-align: center;
         margin-bottom: 30px;
+    }
+
+    .image-container img {
+        max-width: 90%;
+        border-radius: 10px;
+        margin: 10px 0;
+        box-shadow: 0 0 15px rgba(0,0,0,0.5);
     }
 
     .card {
@@ -21,7 +34,6 @@
         padding: 20px;
         margin-bottom: 20px;
         border-radius: 10px;
-        box-shadow: 0 0 10px rgba(0,0,0,0.3);
     }
 
     h2 {
@@ -53,13 +65,20 @@
 
 <body>
 
-<h1>Raspberry Pi Sensor Lab Codes</h1>
+<h1>Raspberry Pi Sensor Lab</h1>
+
+<div class="image-container">
+    <h2>Sensor Circuit Diagrams</h2>
+    <img src="circuits.png" alt="Circuit Diagram">
+
+    <h2>GPIO Pin Diagram</h2>
+    <img src="gpio.png" alt="GPIO Pin Layout">
+</div>
 
 <!-- Ultrasonic -->
 <div class="card">
 <h2>Ultrasonic Sensor (HC-SR04)</h2>
-<pre id="code1">
-import RPi.GPIO as GPIO
+<pre id="code1">import RPi.GPIO as GPIO
 import time
 
 TRIG = 23
@@ -86,16 +105,14 @@ while True:
     duration = end - start
     distance = duration * 17150
 
-    print("Distance:", round(distance, 2), "cm")
-</pre>
+    print("Distance:", round(distance, 2), "cm")</pre>
 <button onclick="copyCode('code1')">Copy Code</button>
 </div>
 
 <!-- DHT -->
 <div class="card">
 <h2>DHT11 Sensor</h2>
-<pre id="code2">
-import Adafruit_DHT
+<pre id="code2">import Adafruit_DHT
 
 sensor = Adafruit_DHT.DHT11
 pin = 4
@@ -104,16 +121,14 @@ while True:
     humidity, temperature = Adafruit_DHT.read(sensor, pin)
 
     if humidity and temperature:
-        print("Temp:", temperature, "°C  Humidity:", humidity, "%")
-</pre>
+        print("Temp:", temperature, "°C  Humidity:", humidity, "%")</pre>
 <button onclick="copyCode('code2')">Copy Code</button>
 </div>
 
 <!-- IR -->
 <div class="card">
 <h2>IR Sensor</h2>
-<pre id="code3">
-import RPi.GPIO as GPIO
+<pre id="code3">import RPi.GPIO as GPIO
 import time
 
 IR = 17
@@ -126,16 +141,14 @@ while True:
         print("Object Detected")
     else:
         print("No Object")
-    time.sleep(1)
-</pre>
+    time.sleep(1)</pre>
 <button onclick="copyCode('code3')">Copy Code</button>
 </div>
 
 <!-- Gas -->
 <div class="card">
 <h2>Gas/Smoke Sensor (MQ-2)</h2>
-<pre id="code4">
-import RPi.GPIO as GPIO
+<pre id="code4">import RPi.GPIO as GPIO
 import time
 
 GAS = 27
@@ -148,16 +161,14 @@ while True:
         print("Gas/Smoke Detected!")
     else:
         print("Safe Environment")
-    time.sleep(1)
-</pre>
+    time.sleep(1)</pre>
 <button onclick="copyCode('code4')">Copy Code</button>
 </div>
 
 <!-- LED -->
 <div class="card">
 <h2>LED Control (2 LEDs + Button)</h2>
-<pre id="code5">
-import RPi.GPIO as GPIO
+<pre id="code5">import RPi.GPIO as GPIO
 import time
 
 LED1 = 5
@@ -184,8 +195,7 @@ while True:
         GPIO.output(LED1, False)
         GPIO.output(LED2, False)
 
-    time.sleep(0.5)
-</pre>
+    time.sleep(0.5)</pre>
 <button onclick="copyCode('code5')">Copy Code</button>
 </div>
 
