@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Raspberry Pi Sensor Codes</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background: #0f172a;
+        color: #e2e8f0;
+        padding: 20px;
+    }
+
+    h1 {
+        text-align: center;
+        margin-bottom: 30px;
+    }
+
+    .card {
+        background: #1e293b;
+        padding: 20px;
+        margin-bottom: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0,0,0,0.3);
+    }
+
+    h2 {
+        color: #38bdf8;
+    }
+
+    pre {
+        background: #020617;
+        padding: 15px;
+        border-radius: 8px;
+        overflow-x: auto;
+    }
+
+    button {
+        margin-top: 10px;
+        padding: 8px 15px;
+        background: #22c55e;
+        border: none;
+        border-radius: 5px;
+        color: white;
+        cursor: pointer;
+    }
+
+    button:hover {
+        background: #16a34a;
+    }
+</style>
+</head>
+
+<body>
+
+<h1>Raspberry Pi Sensor Lab Codes</h1>
+
+<!-- Ultrasonic -->
+<div class="card">
+<h2>Ultrasonic Sensor (HC-SR04)</h2>
+<pre id="code1">
+import RPi.GPIO as GPIO
+import time
+
+TRIG = 23
+ECHO = 24
+
+GPIO.setmode(GPIO.BCM)
+GPIO.setup(TRIG, GPIO.OUT)
+GPIO.setup(ECHO, GPIO.IN)
+
+while True:
+    GPIO.output(TRIG, False)
+    time.sleep(0.5)
+
+    GPIO.output(TRIG, True)
+    time.sleep(0.00001)
+    GPIO.output(TRIG, False)
+
+    while GPIO.input(ECHO) == 0:
+        start = time.time()
+
+    while GPIO.input(ECHO) == 1:
+        end = time.time()
+
+    duration = end - start
+    distance = duration * 17150
+
+    print("Distance:", round(distance, 2), "cm")
+</pre>
+<button onclick="copyCode('code1')">Copy Code</button>
+</div>
+
+<!-- DHT -->
+<div class="card">
+<h2>DHT11 Sensor</h2>
+<pre id="code2">
+import Adafruit_DHT
+
+sensor = Adafruit_DHT.DHT11
+pin = 4
+
+while True:
+    humidity, temperature = Adafruit_DHT.read(sensor, pin)
+
+    if humidity and temperature:
+        print("Temp:", temperature, "°C  Humidity:", humidity, "%")
+</pre>
+<button onclick="copyCode('code2')">Copy Code</button>
+</div>
+
+<!-- IR -->
+<div class="card">
+<h2>IR Sensor</h2>
+<pre id="code3">
+import RPi.GPIO as GPIO
+import time
+
+IR = 17
+
+GPIO.setmode(GPIO.BCM)
+GPIO.setup(IR, GPIO.IN)
+
+while True:
+    if GPIO.input(IR) == 0:
+        print("Object Detected")
+    else:
+        print("No Object")
+    time.sleep(1)
+</pre>
+<button onclick="copyCode('code3')">Copy Code</button>
+</div>
+
+<!-- Gas -->
+<div class="card">
+<h2>Gas/Smoke Sensor (MQ-2)</h2>
+<pre id="code4">
+import RPi.GPIO as GPIO
+import time
+
+GAS = 27
+
+GPIO.setmode(GPIO.BCM)
+GPIO.setup(GAS, GPIO.IN)
+
+while True:
+    if GPIO.input(GAS) == 0:
+        print("Gas/Smoke Detected!")
+    else:
+        print("Safe Environment")
+    time.sleep(1)
+</pre>
+<button onclick="copyCode('code4')">Copy Code</button>
+</div>
+
+<!-- LED -->
+<div class="card">
+<h2>LED Control (2 LEDs + Button)</h2>
+<pre id="code5">
+import RPi.GPIO as GPIO
+import time
+
+LED1 = 5
+LED2 = 6
+BUTTON = 13
+
+GPIO.setmode(GPIO.BCM)
+GPIO.setup(LED1, GPIO.OUT)
+GPIO.setup(LED2, GPIO.OUT)
+GPIO.setup(BUTTON, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+
+while True:
+    user = input("Enter 1 to ON LED1, 2 for LED2: ")
+
+    if user == '1':
+        GPIO.output(LED1, True)
+        GPIO.output(LED2, False)
+    elif user == '2':
+        GPIO.output(LED2, True)
+        GPIO.output(LED1, False)
+
+    if GPIO.input(BUTTON) == 0:
+        print("Switch Pressed - Turning OFF both LEDs")
+        GPIO.output(LED1, False)
+        GPIO.output(LED2, False)
+
+    time.sleep(0.5)
+</pre>
+<button onclick="copyCode('code5')">Copy Code</button>
+</div>
+
+<script>
+function copyCode(id) {
+    const code = document.getElementById(id).innerText;
+    navigator.clipboard.writeText(code);
+    alert("Code copied!");
+}
+</script>
+
+</body>
+</html>
